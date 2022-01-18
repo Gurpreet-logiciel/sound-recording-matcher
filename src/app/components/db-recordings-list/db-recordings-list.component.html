@@ -1,0 +1,30 @@
+<div class="jumbotron" style="overflow: scroll; height: 750px;">
+    <h4>System Recordings List</h4>    
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Artist</th>
+            <th scope="col">Title</th>
+            <th scope="col">ISRC</th>
+            <th scope="col">Duration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="recordings.length > 0">
+            <tr *ngFor="let recording of recordings">
+              <td scope="row">{{recording.id}}</td>
+              <td>{{recording.artist}}</td>
+              <td>{{recording.title}}</td>
+              <td>{{recording.isrc}}</td>
+              <td>{{recording.duration}}</td>
+            </tr>
+          </ng-container>
+          <ng-container *ngIf="recordings.length == 0">
+            <tr>
+              <td class="text-center" colspan="5">No Recording Found</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+</div>

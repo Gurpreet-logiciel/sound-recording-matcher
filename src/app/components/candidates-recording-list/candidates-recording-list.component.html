@@ -1,0 +1,49 @@
+<div class="jumbotron" style="overflow: scroll; height: 750px;">
+    <h4>Candidate's Recordings List</h4>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Artist</th>
+            <th scope="col">Title</th>
+            <th scope="col">ISRC</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngIf="recordings.length > 0">
+              <tr *ngFor="let recording of recordings">
+                  <td scope="row">{{recording.id}}</td>
+                  <td>{{recording.artist}}</td>
+                  <td>{{recording.title}}</td>
+                  <td>{{recording.isrc}}</td>
+                  <td>{{recording.duration}}</td>
+                  <td>
+                    <button 
+                      class="btn btn-primary btn-sm"
+                      *ngIf="!recording.matchStatus"
+                      (click)="matchwithDB(recording)">
+                      <span>{{(recording.isMatching ? "Matching..." : "Click to Match")}}</span>
+                    </button>
+
+                    <span *ngIf="recording.matchStatus == 'matched'" class="badge badge-success">Matched with id {{recording.matchedDbRecord.id}}</span>
+
+                    <span *ngIf="recording.matchStatus == 'not-matched'" class="badge badge-danger">Not Matched</span>
+                    <button 
+                      class="btn btn-primary btn-sm"
+                      *ngIf="recording.matchStatus == 'not-matched'"
+                      (click)="addRecToDB(recording)">
+                      <span>{{(recording.isAdding ? "Adding..." : "Add to DB")}}</span>
+                    </button>
+                  </td>
+              </tr>
+              <ng-container *ngIf="recordings.length == 0">
+                <tr>
+                  <td class="text-center" colspan="6">No Recording Found</td>
+                </tr>
+              </ng-container>
+            </ng-container>
+        </tbody>
+      </table>
+</div>
