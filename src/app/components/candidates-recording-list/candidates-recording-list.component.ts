@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RECORDING } from 'src/app/interfaces/recording';
+import { EventService } from 'src/app/services/event.service';
 import { InputRecordingsDataService } from 'src/app/services/input-recordings-data.service';
 import { RecordingService } from 'src/app/services/recording.service';
 
@@ -14,7 +15,8 @@ export class CandidatesRecordingListComponent implements OnInit {
   dbRecordings: Array<RECORDING> = [];
 
   constructor(private inputRecordingService: InputRecordingsDataService,
-    private recordingService: RecordingService) { }
+    private recordingService: RecordingService,
+    private eventService: EventService) { }
 
   ngOnInit(): void {
     this.getRecordings();
@@ -81,6 +83,21 @@ export class CandidatesRecordingListComponent implements OnInit {
   }
 
   addRecToDB(recording: any) {
-    console.log('recording', recording);
+    recording['isAdding'] = true;
+
+    setTimeout(() => { //timout is only added for showing loader
+      let data = {
+        artist: recording.artist,
+        title: recording.title,
+        isrc: recording.isrc,
+        duration: recording.duration
+      };
+      
+      this.eventService.fire('add_new_recording', {recording: data});
+  
+      recording['isAdding'] = false;
+      recording['matchStatus'] = "added-to-db";
+    }, 500);
+    
   }
 }

@@ -29,13 +29,16 @@
 
                     <span *ngIf="recording.matchStatus == 'matched'" class="badge badge-success">Matched with id {{recording.matchedDbRecord.id}}</span>
 
-                    <span *ngIf="recording.matchStatus == 'not-matched'" class="badge badge-danger">Not Matched</span>
+                    <span *ngIf="recording.matchStatus == 'not-matched' && recording.matchStatus != 'added-to-db'" class="badge badge-danger">Not Matched</span>
                     <button 
-                      class="btn btn-primary btn-sm"
-                      *ngIf="recording.matchStatus == 'not-matched'"
-                      (click)="addRecToDB(recording)">
-                      <span>{{(recording.isAdding ? "Adding..." : "Add to DB")}}</span>
-                    </button>
+                    class="btn btn-primary btn-sm"
+                    *ngIf="recording.matchStatus == 'not-matched' && recording.matchStatus != 'added-to-db'"
+                    (click)="addRecToDB(recording)">
+                    <span>{{(recording.isAdding ? "Adding..." : "Add to DB")}}</span>
+                  </button>
+                  
+                  <span *ngIf="recording.matchStatus == 'added-to-db'" class="badge badge-success">Added to DB</span>
+
                   </td>
               </tr>
               <ng-container *ngIf="recordings.length == 0">
